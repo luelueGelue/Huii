@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>青鸟租房</title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<script type="text/javascript" src="js/function.js"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/axios.min.js"></script>
+	<style>
+		.house-thumb img{
+			width: 100px;
+			height: 75px;
+		}
+	</style>
+<script type="text/javascript">
+		function add(url){
+			open("add.html","_self");
+		}
+		function update(id){
+			open("add.html","_self");
+		}
+		function del(id, page) {
+			var isDel = confirm("是否确定删除");
+		
+		}
+	</script>
+</head>
+<body>
+<div id="app">
+	<div id="header" class="wrap">
+		<div id="logo">
+			<img src="images/logo.gif" />
+		</div>
+		<div class="search">
+			<a href="login.html">登录</a>
+			<a href="register.html">注册</a>
+			<label class="ui-green"><input onclick="add()" type="button" name="search" value="发布房屋信息" /></label>
+			<label class="ui-green"><input type="button" name="search" value="退       出" onclick='document.location="index.jsp"' /></label>
+		</div>
+	</div>
+	<div class="main wrap">
+		<div id="houseArea">
+			<table class="house-list">
+				<tr v-for="h in list">
+					<td class="house-thumb"><span><a href="page/show.jsp?id=10001"><img :src="h.imgs" /></a></span></td>
+					<td>
+						<dl>
+							<dt>
+								<a href="#">{{h.title}}</a>
+							</dt>
+							<dd>
+								{{h.intro}}<br /> 联系方式：{{h.contact}}
+							</dd>
+						</dl>
+					</td>
+					<td class="house-type"><label class="ui-green"><input type="button" onclick='update(10001)' value="修    改" /></label></td>
+					<td class="house-price"><label class="ui-green"><input type="button" onclick='del(10001, 1)' value="删    除" /></label></td>
+				</tr>
+			</table>
+			<div class="pager">
+				<ul>
+					<li class="current"><a href="#">首页</a></li>
+					<li class="current"><a href="#">上一页</a></li>
+					<li class="current"><a href="#">下一页</a></li>
+					<li class="current"><a href="#">尾页</a></li>
+				</ul>
+				<span class="total">1/1页</span>
+			</div>
+		</div>
+	</div>
+	<div id="footer" class="wrap">
+	</div>
+</div>
+<script>
+	var v = new Vue({
+		el : "#app",
+		data : {
+			list : []
+		},
+		methods : {
+			query(){
+				axios.get("/c112s2plyqnzf/house/query")
+						.then(res=>this.list = res.data);
+			}
+		},
+		created(){
+			this.query();
+		}
+	})
+</script>
+</body>
+</html>
